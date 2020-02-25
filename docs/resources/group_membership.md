@@ -16,6 +16,8 @@ The `gitlab_group_membership` resource allows to manage the lifecycle of a users
 
 **Upstream API**: [GitLab REST API docs](https://docs.gitlab.com/ee/api/members.html)
 
+> **Note:** exactly one of user_id or username must be provided.
+
 ## Example Usage
 
 ```terraform
@@ -34,10 +36,11 @@ resource "gitlab_group_membership" "test" {
 
 - `access_level` (String) Access level for the member. Valid values are: `no one`, `minimal`, `guest`, `reporter`, `developer`, `maintainer`, `owner`, `master`.
 - `group_id` (String) The id of the group.
-- `user_id` (Number) The id of the user.
 
 ### Optional
 
+- `user_id` (Number) The id of the user.
+- `username` (String) The username of the user.
 - `expires_at` (String) Expiration date for the group membership. Format: `YYYY-MM-DD`
 - `skip_subresources_on_destroy` (Boolean) Whether the deletion of direct memberships of the removed member in subgroups and projects should be skipped. Only used during a destroy.
 - `unassign_issuables_on_destroy` (Boolean) Whether the removed member should be unassigned from any issues or merge requests inside a given group or project. Only used during a destroy.
