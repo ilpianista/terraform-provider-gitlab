@@ -10,6 +10,8 @@ description: |-
 
 This resource allows you to add a user to an existing group.
 
+> **Note:** exactly one of user_id or username must be provided.
+
 ## Example Usage
 
 ```terraform
@@ -28,10 +30,11 @@ resource "gitlab_group_membership" "test" {
 
 - **access_level** (String) Access level for the member. Valid values are: `no one`, `minimal`, `guest`, `reporter`, `developer`, `maintainer`, `owner`, `master`.
 - **group_id** (String) The id of the group.
-- **user_id** (Number) The id of the user.
 
 ### Optional
 
+- **user_id** (Number) The id of the user.
+- **username** (String) The username of the user.
 - **expires_at** (String) Expiration date for the group membership. Format: `YYYY-MM-DD`
 - **id** (String) The ID of this resource.
 
