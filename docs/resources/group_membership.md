@@ -2,6 +2,8 @@
 
 This resource allows you to add a user to an existing group.
 
+-> **Note:** You must specify either `user_id` or `username`.
+
 ## Example Usage
 
 ```hcl
@@ -19,9 +21,11 @@ The following arguments are supported:
 
 * `group_id` - (Required) The id of the group.
 
-* `user_id` - (Required) The id of the user.
-
 * `access_level` - (Required)  Acceptable values are: guest, reporter, developer, maintainer, owner.
+
+* `user_id` - (Optional) The id of the user.
+
+* `username` - (Optional) The username of the user.
 
 * `expires_at` - (Optional) Expiration date for the group membership. Format: `YYYY-MM-DD`
 
