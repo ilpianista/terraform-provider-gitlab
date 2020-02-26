@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net/http"
 	"strconv"
 	"strings"
 
@@ -85,11 +86,30 @@ func resourceGitlabGroupMembershipCreate(ctx context.Context, d *schema.Resource
 	}
 	log.Printf("[DEBUG] create gitlab group groupMember for %d in %s", options.UserID, groupId)
 
-	groupMember, _, err := client.GroupMembers.AddGroupMember(groupId, options, gitlab.WithContext(ctx))
+	_, resp, err := client.GroupMembers.AddGroupMember(groupId, options, gitlab.WithContext(ctx))
 	if err != nil {
-		return diag.FromErr(err)
+		user, _, err := client.Users.CurrentUser()
+		if err != nil {
+			return diag.FromErr(err)
+		}
+
+		// The user that creates the group is always added automatically as member
+		if resp != nil && resp.StatusCode == http.StatusConflict && user.ID == userId {
+			options := gitlab.EditGroupMemberOptions{
+				AccessLevel: &accessLevelId,
+				ExpiresAt:   &expiresAt,
+			}
+			log.Printf("[DEBUG] update gitlab group membership %v for %s", userId, groupId)
+
+			_, _, err := client.GroupMembers.EditGroupMember(groupId, userId, &options)
+			if err != nil {
+				return diag.FromErr(err)
+			}
+		} else {
+			return diag.FromErr(err)
+		}
 	}
-	userIdString := strconv.Itoa(groupMember.ID)
+	userIdString := strconv.Itoa(userId)
 	d.SetId(buildTwoPartID(&groupId, &userIdString))
 	return resourceGitlabGroupMembershipRead(ctx, d, meta)
 }
