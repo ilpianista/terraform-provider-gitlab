@@ -32,7 +32,7 @@ jobs:
       go-version: ${{ steps.go-version.outputs.go-version }}
     steps:
       # Check out the pull request code (as opposed to the target project).
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       # Read the .go-version file and output it for other jobs to use.
@@ -65,7 +65,7 @@ jobs:
           go-version: ${{ needs.go-version.outputs.go-version }}
       # Check out the target project (as opposed to the pull request code).
       # Yes, this is intentional. We are using trusted code while working with the GitLab license.
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Decrypt license
         run: |
           openssl version
@@ -74,7 +74,7 @@ jobs:
       # Check out the pull request code (as opposed to the target project).
       # This overwrites the entire directory and deleted the unencrypted GitLab license file. The
       # service has already started and continues using the license even though the file is deleted.
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       # Cache the Go modules.
