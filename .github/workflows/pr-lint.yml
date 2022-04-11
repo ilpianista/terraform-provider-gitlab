@@ -33,7 +33,7 @@ jobs:
           - lint-examples-sh
           - lint-generated
     steps:
-      - uses: actions/setup-go@v2
+      - uses: actions/setup-go@v3
         with:
           go-version: ${{ needs.go-version.outputs.go-version }}
       - uses: actions/checkout@v2
@@ -54,7 +54,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
-      - uses: actions/setup-go@v2
+      - uses: actions/setup-go@v3
         with:
           go-version: ${{ needs.go-version.outputs.go-version }}
       - uses: actions/checkout@v2
