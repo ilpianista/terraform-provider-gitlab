@@ -16,19 +16,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check do-not-merge
-        uses: mheap/github-action-required-labels@v1
+        uses: mheap/github-action-required-labels@v2
         with:
           mode: exactly
           count: 0
           labels: do-not-merge
       - name: Check needs-rebase
-        uses: mheap/github-action-required-labels@v1
+        uses: mheap/github-action-required-labels@v2
         with:
           mode: exactly
           count: 0
           labels: needs-rebase
       - name: Check "safe to test" or "skip-ee-test"
-        uses: mheap/github-action-required-labels@v1
+        uses: mheap/github-action-required-labels@v2
         with:
           mode: minimum
           count: 1
